@@ -5,32 +5,35 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 screen.fill((0, 0, 0))
 pygame.display.set_caption("シューティングゲーム")
-img = pygame.image.load("player.png")
-img2 = pygame.image.load("enemy.png")
-x = 370
-y = 480
-x2 = 200
-y2 = 200
+player = pygame.image.load("player.png")
+enemy = pygame.image.load("enemy.png")
+bullet = pygame.image.load("bullet.png")
+playerX = 400 - player.get_width() / 2
+playerY = 500
+enemyX = 200
+enemyY = 200
 
 
 running = True
 while running:
-    screen.blit(img, (x, y))
-    screen.blit(img2, (x2, y2))
+    # screen.fill((0, 0, 0,))
+    screen.blit(player, (playerX, playerY))
+    screen.blit(enemy, (enemyX, enemyY))
+    # screen.blit(bullet,(playerX+ player.get_width() / 2 - bullet.get_width()/2, playerY- bullet.get_width()))
+
+    key_press = pygame.key.get_pressed()
+    if key_press[K_RIGHT]:
+        if playerX < 800-player.get_width():
+            playerX += 0.1
+    if key_press[K_LEFT]:
+        if playerX > 0:
+            playerX -= 0.1
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-        if event.type == KEYDOWN:
-            if event.key == K_RIGHT:
-                screen.fill((255, 0, 0))
-                x +=1
-            if event.key == K_LEFT:
-                screen.fill((0, 0, 255))
-                x -=1
-            if event.key == K_UP:
-                screen.fill((0, 255, 0))
+        if event.type == K_SPACE:
+            screen.blit(bullet, (playerX + player.get_width() / 2 - bullet.get_width() / 2, playerY - bullet.get_width()))
 
-            if event.key == K_DOWN:
-                screen.fill((255, 255, 255))
+
 
     pygame.display.update()
